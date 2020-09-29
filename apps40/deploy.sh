@@ -30,8 +30,8 @@ echo "*************** Connection Information ***************"
 printf "\n*** Cloning Tailwind code repository... ***\n"
 
 # Clone Tailwind backend and checkout known stable tag
-git clone https://github.com/microsoft/TailwindTraders-Backend.git
-git -C TailwindTraders-Backend checkout ed86d5f
+git clone https://github.com/quintindk/TailwindTraders-Backend.git
+#git -C TailwindTraders-Backend checkout ed86d5f
 
 # Deploy network infrastructure
 printf "\n*** Deploying networking resources ***\n"
@@ -50,7 +50,6 @@ az network vnet subnet create \
     --vnet-name k8sVNet \
     --name VNSubnet  \
     --address-prefix 10.241.0.0/16
-
 
 # Deploy backend infrastructure
 printf "\n*** Deploying resources: this will take a few minutes... ***\n"
@@ -105,7 +104,6 @@ metadata:
   namespace: $nameSpace
 EOF
 
-
 # Create Helm values file
 printf "\n*** Create Helm values file... ***\n"
 
@@ -130,7 +128,7 @@ helm install --name my-tt-mobilebff -f $tailwindChartValues --namespace=$nameSpa
 helm install --name my-tt-webbff -f $tailwindChartValues --namespace=$nameSpace --set ingress.hosts={$INGRESS} --set image.repository=$containerRegistry/webapigw --set image.tag=$containerVersion $tailwindCharts/webbff
 
 # Pulling from a stable fork of the tailwind website
-git clone https://github.com/neilpeterson/TailwindTraders-Website.git
+git clone https://github.com/quintindk/TailwindTraders-Website.git
 helm install --name web -f TailwindTraders-Website/Deploy/helm/gvalues.yaml --namespace=$nameSpace --set ingress.protocol=http --set ingress.hosts={$INGRESS} --set image.repository=$containerRegistry/web --set image.tag=v1 TailwindTraders-Website/Deploy/helm/web/
 
 # Label all pods in the twt namespce for the network policy to be applied
@@ -139,8 +137,6 @@ for i in $x
 do
    kubectl label -n twt pods $i role=twt-app
 done
-
-
 
 # Copy website images to storage
 printf "\n***Copying application images (graphics) to Azure storage.***\n"

@@ -148,10 +148,10 @@ az storage container create --name "coupon-list" --public-access blob --connecti
 az storage container create --name "product-detail" --public-access blob --connection-string $CONNECTION_STRING
 az storage container create --name "product-list" --public-access blob --connection-string $CONNECTION_STRING
 az storage container create --name "profiles-list" --public-access blob --connection-string $CONNECTION_STRING
-az storage blob upload-batch --destination $BLOB_ENDPOINT --destination coupon-list  --source $tailwindWebImages/coupon-list --account-name $STORAGE
-az storage blob upload-batch --destination $BLOB_ENDPOINT --destination product-detail --source $tailwindWebImages/product-detail --account-name $STORAGE
-az storage blob upload-batch --destination $BLOB_ENDPOINT --destination product-list --source $tailwindWebImages/product-list --account-name $STORAGE
-az storage blob upload-batch --destination $BLOB_ENDPOINT --destination profiles-list --source $tailwindWebImages/profiles-list --account-name $STORAGE
+az storage blob upload-batch --destination "$BLOB_ENDPOINT/coupon-list" --destination-path coupon-list  --source $tailwindWebImages/coupon-list --account-name $STORAGE
+az storage blob upload-batch --destination "$BLOB_ENDPOINT/product-detail" --destination-path product-detail --source $tailwindWebImages/product-detail --account-name $STORAGE
+az storage blob upload-batch --destination "$BLOB_ENDPOINT/product-list" --destination-path product-list --source $tailwindWebImages/product-list --account-name $STORAGE
+az storage blob upload-batch --destination "$BLOB_ENDPOINT/profiles-list" --destination-path profiles-list --source $tailwindWebImages/profiles-list --account-name $STORAGE
 
 #
 printf "\n***Setting up scaling backend componets.***\n"
